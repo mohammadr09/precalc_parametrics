@@ -1,32 +1,13 @@
-# Python
 __pycache__/
 *.py[cod]
-*.pyo
 
-# Virtual environments
-venv/
 .venv/
-env/
+venv/
 manim-env/
 
-# macOS
-.DS_Store
-
-# VS Code
-.vscode/
-
-# JetBrains
-.idea/
-
-# Manim renders
 media/
 
-# LaTeX artifacts
-*.aux
-*.log
-*.svg
-*.dvi
-*.xdv
+.vscode/
+.idea/
 
-# Misc
-*.tmp
+.DS_Store
