@@ -4,8 +4,8 @@ test-run:
 run:
 	manim -pqh src/main.py Main
 
-FILE ?= hook
-SCENE ?= HookScene
+FILE ?= hook_two
+SCENE ?= HookSceneTwo
 
 scene:
 	manim -pqh src/scene/$(FILE).py $(SCENE)
