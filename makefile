@@ -4,5 +4,8 @@ test-run:
 run:
 	manim -pqh src/main.py Main
 
+FILE ?= hook
+SCENE ?= HookScene
+
 scene:
-	manim -pqh src/scene/circle_demo.py CircleDemo
+	manim -pqh src/scene/$(FILE).py $(SCENE)
