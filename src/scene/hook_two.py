@@ -87,7 +87,7 @@ class HookSceneTwo(Scene):
             MoveAlongPath(ellipse_dot, ellipse),
             MoveAlongPath(left_hyperbola_dot, left_branch),
             MoveAlongPath(right_hyperbola_dot, right_branch),
-            run_time=4,
+            run_time=2,
             rate_func=linear
         )
 
