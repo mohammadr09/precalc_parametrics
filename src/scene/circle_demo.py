@@ -19,10 +19,14 @@ def circle_demo_display(scene):
         Indicate(circle_eq[2], color=YELLOW)
     )
 
+    scene.wait(0.5)
+
     scene.play(
         circle_eq[0].animate.set_color(ORANGE),
         Indicate(circle_eq[0], color=ORANGE)
     )
+
+    scene.wait(0.5)
 
     scene.remove(circle_eq)
 
@@ -46,6 +50,38 @@ def circle_demo_display(scene):
     param_eq.next_to(param_form, DOWN, buff=0.5)
 
     scene.play(Write(param_eq))
+    scene.wait(1.4)
+
+    scene.remove(param_form, param_eq)
+    scene.wait(0.5)
+
+    # Circle Parametric Equation Derivation
+    plane = NumberPlane(
+        x_range=[-1.5, 1.5, 1],
+        y_range=[-1.5, 1.5, 1],
+        background_line_style={"stroke_opacity": 0.35}
+    )
+
+    scene.play(FadeIn(plane, run_time=0.8))
+    scene.add(circle, plane)
+
+    scene.play(
+        VGroup(circle, plane).animate.scale(1.5).move_to(LEFT * 4),
+        run_time=1.2,
+        rate_func=smooth
+    )
+
+    plane.set_z_index(0)
+    circle.set_z_index(1)
+
+    radius_line = Line(circle.get_center(), circle.point_at_angle(PI/4))
+    radius_dot = Dot(radius_line.get_start(), color=YELLOW)
+
+    scene.play(FadeIn(radius_dot))
+    scene.play(
+        MoveAlongPath(radius_dot, radius_line),
+        Create(radius_line)
+    )
 
 class CircleDemo(Scene):
     def construct(self):
