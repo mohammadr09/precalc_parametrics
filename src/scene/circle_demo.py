@@ -26,13 +26,26 @@ def circle_demo_display(scene):
 
     scene.remove(circle_eq)
 
-    xt = MathTex(r"x_t = ")
-    yt = MathTex(r"y_t = ")
+    xt = MathTex("x_t")
+    plus = MathTex("+")
+    yt = MathTex("y_t")
+    eq = MathTex("=")
+    one = MathTex("1")
 
-    equations = VGroup(xt, yt).arrange(RIGHT, buff=1.5)
-    equations.move_to(circle.get_center() + DOWN * 2)
+    param_form = VGroup(xt, plus, yt, eq, one).arrange(RIGHT, buff=0.3)
+    param_form.next_to(circle, DOWN, buff=0.5)
 
-    scene.play(Write(equations))
+    scene.play(
+        TransformMatchingTex(circle_eq, param_form)
+    )
+
+    xt = MathTex(r"x_t = ...")
+    yt = MathTex(r"y_t = ...")
+
+    param_eq = VGroup(xt, yt).arrange(DOWN, buff=0.3)
+    param_eq.next_to(param_form, DOWN, buff=0.5)
+
+    scene.play(Write(param_eq))
 
 class CircleDemo(Scene):
     def construct(self):
