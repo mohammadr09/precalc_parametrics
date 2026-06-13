@@ -1,4 +1,5 @@
 from manim import * # type: ignore
+import numpy as np
 
 def circle_demo_display(scene):
     circle = Circle(color=BLUE)
@@ -27,8 +28,6 @@ def circle_demo_display(scene):
     )
 
     scene.wait(0.5)
-
-    scene.remove(circle_eq)
 
     xt = MathTex("x_t")
     plus = MathTex("+")
@@ -64,15 +63,14 @@ def circle_demo_display(scene):
 
     scene.play(FadeIn(plane, run_time=0.8))
     scene.add(circle, plane)
+    plane.set_z_index(0)
+    circle.set_z_index(1)
 
     scene.play(
         VGroup(circle, plane).animate.scale(1.5).move_to(LEFT * 4),
         run_time=1.2,
         rate_func=smooth
     )
-
-    plane.set_z_index(0)
-    circle.set_z_index(1)
 
     radius_line = Line(circle.get_center(), circle.point_at_angle(PI/4))
     radius_dot = Dot(radius_line.get_start(), color=YELLOW)
@@ -130,10 +128,15 @@ def circle_demo_display(scene):
     scene.remove(horizontal_line)
     scene.remove(perpendicular_line)
     scene.remove(radius_dot)
-    scene.remove(theta_arc)
-    scene.remove(theta_label)
 
     theta = ValueTracker(PI / 4)
+
+    def angle_vector(angle, length):
+        return np.array([
+            length * np.cos(angle),
+            length * np.sin(angle),
+            0
+        ])
 
     moving_dot = always_redraw(
         lambda: Dot(
@@ -174,15 +177,49 @@ def circle_demo_display(scene):
         )
     )
 
-    scene.add(moving_dot, radius_line, horizontal_line, vertical_line)
+    moving_theta_arc = always_redraw(
+        lambda: Arc(
+            radius=0.45,
+            start_angle=0,
+            angle=theta.get_value(),
+            arc_center=circle.get_center(),
+            color=YELLOW,
+            stroke_width=7
+        )
+    )
+
+    moving_theta_label = always_redraw(
+        lambda: MathTex(r"\theta")
+            .scale(0.55)
+            .move_to(circle.get_center() + angle_vector(theta.get_value() / 2, 0.7))
+    )
+
+    scene.play(
+        ReplacementTransform(theta_arc, moving_theta_arc),
+        ReplacementTransform(theta_label, moving_theta_label),
+        FadeIn(moving_dot),
+        Create(radius_line), # type: ignore
+        Create(horizontal_line), # type: ignore
+        Create(vertical_line), # type: ignore
+        run_time=0.8
+    )
 
     scene.play(
         theta.animate.set_value(PI/4 + TAU),
-        run_time=6,
+        run_time=4,
         rate_func=linear
     )
 
-    scene.play(Create(theta_arc), Write(MathTex(r"t").next_to(theta_arc, RIGHT).scale(0.5)))
+    moving_dot.clear_updaters()
+    radius_line.clear_updaters()
+    horizontal_line.clear_updaters()
+    vertical_line.clear_updaters()
+    moving_theta_arc.clear_updaters()
+    moving_theta_label.clear_updaters()
+
+    t_label = MathTex(r"t").scale(0.55).move_to(moving_theta_label)
+
+    scene.play(Transform(moving_theta_label, t_label), run_time=0.6)
 
     x_param = MathTex(
         r"x",
