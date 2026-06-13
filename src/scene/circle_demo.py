@@ -126,6 +126,90 @@ def circle_demo_display(scene):
         Indicate(perpendicular_line, color=RED)
     )
 
+    scene.remove(radius_line)
+    scene.remove(horizontal_line)
+    scene.remove(perpendicular_line)
+    scene.remove(radius_dot)
+    scene.remove(theta_arc)
+    scene.remove(theta_label)
+
+    theta = ValueTracker(PI / 4)
+
+    moving_dot = always_redraw(
+        lambda: Dot(
+            circle.point_at_angle(theta.get_value()),
+            color=YELLOW
+        )
+    )
+
+    radius_line = always_redraw(
+        lambda: Line(
+            circle.get_center(),
+            circle.point_at_angle(theta.get_value()),
+            color=YELLOW
+        )
+    )
+
+    horizontal_line = always_redraw(
+        lambda: Line(
+            circle.get_center(),
+            np.array([
+                circle.point_at_angle(theta.get_value())[0],
+                circle.get_center()[1],
+                0
+            ]),
+            color=RED
+        )
+    )
+
+    vertical_line = always_redraw(
+        lambda: Line(
+            circle.point_at_angle(theta.get_value()),
+            np.array([
+                circle.point_at_angle(theta.get_value())[0],
+                circle.get_center()[1],
+                0
+            ]),
+            color=PURPLE
+        )
+    )
+
+    scene.add(moving_dot, radius_line, horizontal_line, vertical_line)
+
+    scene.play(
+        theta.animate.set_value(PI/4 + TAU),
+        run_time=6,
+        rate_func=linear
+    )
+
+    scene.play(Create(theta_arc), Write(MathTex(r"t").next_to(theta_arc, RIGHT).scale(0.5)))
+
+    x_param = MathTex(
+        r"x",
+        r"(t)",
+        r"=",
+        r"\cos",
+        r"t",
+        color=RED
+    )
+
+    y_param = MathTex(
+        r"y",
+        r"(t)",
+        r"=",
+        r"\sin",
+        r"t",
+        color=PURPLE
+    )
+
+    x_param.move_to(cosine_eq)
+    y_param.move_to(sine_eq)
+
+    scene.play(
+        TransformMatchingTex(cosine_eq, x_param),
+        TransformMatchingTex(sine_eq, y_param)
+    )
+
 
 class CircleDemo(Scene):
     def construct(self):
