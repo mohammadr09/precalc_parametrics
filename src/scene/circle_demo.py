@@ -77,11 +77,55 @@ def circle_demo_display(scene):
     radius_line = Line(circle.get_center(), circle.point_at_angle(PI/4))
     radius_dot = Dot(radius_line.get_start(), color=YELLOW)
 
+    theta_arc = Angle(
+        Line(circle.get_center(), circle.point_at_angle(0)),
+        radius_line,
+        radius=0.3,
+        color=YELLOW
+    )
+    theta_label = MathTex(r"\theta").next_to(theta_arc, RIGHT, buff=0.1)
+    theta_label.scale(0.5)
+
     scene.play(FadeIn(radius_dot))
     scene.play(
         MoveAlongPath(radius_dot, radius_line),
-        Create(radius_line)
+        Create(radius_line),
+        Create(theta_arc),
+        Write(theta_label)
     )
+
+    perpendicular_line = Line(
+        circle.point_at_angle(PI/4),
+        np.array([circle.point_at_angle(PI/4)[0], 0, 0]),
+        color=PURPLE
+    )
+
+    horizontal_line = Line(
+        circle.get_center(),
+        np.array([
+            circle.point_at_angle(PI/4)[0],
+            circle.get_center()[1],
+            0
+        ]),
+        color=RED
+    )
+
+    scene.play(Create(perpendicular_line))
+
+    cosine_eq = MathTex(r"x = \cos\theta", color=RED).shift(UP * 1.5)
+
+    scene.play(
+        Write(cosine_eq),
+        Indicate(horizontal_line, color=RED)
+    )
+
+    sine_eq = MathTex(r"y = \sin\theta", color=PURPLE).next_to(cosine_eq, DOWN, buff=0.5)
+
+    scene.play(
+        Write(sine_eq),
+        Indicate(perpendicular_line, color=RED)
+    )
+
 
 class CircleDemo(Scene):
     def construct(self):
