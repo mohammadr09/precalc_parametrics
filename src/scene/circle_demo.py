@@ -74,141 +74,141 @@ def circle_demo_display(scene):
     plane.set_z_index(0)
     circle.set_z_index(1)
 
-    # radius_line = Line(circle.get_center(), circle.point_at_angle(PI/4))
-    # radius_dot = Dot(radius_line.get_start(), color=YELLOW)
+    radius_line = Line(circle.get_center(), circle.point_at_angle(PI/4))
+    radius_dot = Dot(radius_line.get_start(), color=YELLOW)
 
-    # theta_arc = Angle(
-    #     Line(circle.get_center(), circle.point_at_angle(0)),
-    #     radius_line,
-    #     radius=0.3,
-    #     color=YELLOW
-    # )
-    # theta_label = MathTex(r"\theta").next_to(theta_arc, RIGHT, buff=0.1)
-    # theta_label.scale(0.5)
+    theta_arc = Angle(
+        Line(circle.get_center(), circle.point_at_angle(0)),
+        radius_line,
+        radius=0.3,
+        color=YELLOW
+    )
+    theta_label = MathTex(r"\theta").next_to(theta_arc, RIGHT, buff=0.1)
+    theta_label.scale(0.5)
 
-    # scene.play(FadeIn(radius_dot))
-    # scene.play(
-    #     MoveAlongPath(radius_dot, radius_line),
-    #     Create(radius_line),
-    #     Create(theta_arc),
-    #     Write(theta_label)
-    # )
+    scene.play(FadeIn(radius_dot))
+    scene.play(
+        MoveAlongPath(radius_dot, radius_line),
+        Create(radius_line),
+        Create(theta_arc),
+        Write(theta_label)
+    )
 
-    # perpendicular_line = Line(
-    #     circle.point_at_angle(PI/4),
-    #     np.array([circle.point_at_angle(PI/4)[0], 0, 0]),
-    #     color=PURPLE
-    # )
+    perpendicular_line = Line(
+        circle.point_at_angle(PI/4),
+        np.array([circle.point_at_angle(PI/4)[0], 0, 0]),
+        color=PURPLE
+    )
 
-    # horizontal_line = Line(
-    #     circle.get_center(),
-    #     np.array([
-    #         circle.point_at_angle(PI/4)[0],
-    #         circle.get_center()[1],
-    #         0
-    #     ]),
-    #     color=RED
-    # )
+    horizontal_line = Line(
+        circle.get_center(),
+        np.array([
+            circle.point_at_angle(PI/4)[0],
+            circle.get_center()[1],
+            0
+        ]),
+        color=RED
+    )
 
-    # scene.play(Create(perpendicular_line))
+    scene.play(Create(perpendicular_line))
 
-    # cosine_eq = MathTex(r"x = \cos\theta", color=RED).shift(UP * 1.5)
+    cosine_eq = MathTex(r"x = \cos\theta", color=RED).shift(UP * 1.5)
 
-    # scene.play(
-    #     Write(cosine_eq),
-    #     Indicate(horizontal_line, color=RED)
-    # )
+    scene.play(
+        Write(cosine_eq),
+        Indicate(horizontal_line, color=RED)
+    )
 
-    # sine_eq = MathTex(r"y = \sin\theta", color=PURPLE).next_to(cosine_eq, DOWN, buff=0.5)
+    sine_eq = MathTex(r"y = \sin\theta", color=PURPLE).next_to(cosine_eq, DOWN, buff=0.5)
 
-    # scene.play(
-    #     Write(sine_eq),
-    #     Indicate(perpendicular_line, color=RED)
-    # )
+    scene.play(
+        Write(sine_eq),
+        Indicate(perpendicular_line, color=RED)
+    )
 
-    # scene.remove(radius_line)
-    # scene.remove(horizontal_line)
-    # scene.remove(perpendicular_line)
-    # scene.remove(radius_dot)
-    # scene.remove(theta_arc)
-    # scene.remove(theta_label)
+    scene.remove(radius_line)
+    scene.remove(horizontal_line)
+    scene.remove(perpendicular_line)
+    scene.remove(radius_dot)
+    scene.remove(theta_arc)
+    scene.remove(theta_label)
 
-    # theta = ValueTracker(PI / 4)
+    theta = ValueTracker(PI / 4)
 
-    # moving_dot = always_redraw(
-    #     lambda: Dot(
-    #         circle.point_at_angle(theta.get_value()),
-    #         color=YELLOW
-    #     )
-    # )
+    moving_dot = always_redraw(
+        lambda: Dot(
+            circle.point_at_angle(theta.get_value()),
+            color=YELLOW
+        )
+    )
 
-    # radius_line = always_redraw(
-    #     lambda: Line(
-    #         circle.get_center(),
-    #         circle.point_at_angle(theta.get_value()),
-    #         color=YELLOW
-    #     )
-    # )
+    radius_line = always_redraw(
+        lambda: Line(
+            circle.get_center(),
+            circle.point_at_angle(theta.get_value()),
+            color=YELLOW
+        )
+    )
 
-    # horizontal_line = always_redraw(
-    #     lambda: Line(
-    #         circle.get_center(),
-    #         np.array([
-    #             circle.point_at_angle(theta.get_value())[0],
-    #             circle.get_center()[1],
-    #             0
-    #         ]),
-    #         color=RED
-    #     )
-    # )
+    horizontal_line = always_redraw(
+        lambda: Line(
+            circle.get_center(),
+            np.array([
+                circle.point_at_angle(theta.get_value())[0],
+                circle.get_center()[1],
+                0
+            ]),
+            color=RED
+        )
+    )
 
-    # vertical_line = always_redraw(
-    #     lambda: Line(
-    #         circle.point_at_angle(theta.get_value()),
-    #         np.array([
-    #             circle.point_at_angle(theta.get_value())[0],
-    #             circle.get_center()[1],
-    #             0
-    #         ]),
-    #         color=PURPLE
-    #     )
-    # )
+    vertical_line = always_redraw(
+        lambda: Line(
+            circle.point_at_angle(theta.get_value()),
+            np.array([
+                circle.point_at_angle(theta.get_value())[0],
+                circle.get_center()[1],
+                0
+            ]),
+            color=PURPLE
+        )
+    )
 
-    # scene.add(moving_dot, radius_line, horizontal_line, vertical_line)
+    scene.add(moving_dot, radius_line, horizontal_line, vertical_line)
 
-    # scene.play(
-    #     theta.animate.set_value(PI/4 + TAU),
-    #     run_time=6,
-    #     rate_func=linear
-    # )
+    scene.play(
+        theta.animate.set_value(PI/4 + TAU),
+        run_time=6,
+        rate_func=linear
+    )
 
-    # scene.play(Create(theta_arc), Write(MathTex(r"t").next_to(theta_arc, RIGHT).scale(0.5)))
+    scene.play(Create(theta_arc), Write(MathTex(r"t").next_to(theta_arc, RIGHT).scale(0.5)))
 
-    # x_param = MathTex(
-    #     r"x",
-    #     r"(t)",
-    #     r"=",
-    #     r"\cos",
-    #     r"t",
-    #     color=RED
-    # )
+    x_param = MathTex(
+        r"x",
+        r"(t)",
+        r"=",
+        r"\cos",
+        r"t",
+        color=RED
+    )
 
-    # y_param = MathTex(
-    #     r"y",
-    #     r"(t)",
-    #     r"=",
-    #     r"\sin",
-    #     r"t",
-    #     color=PURPLE
-    # )
+    y_param = MathTex(
+        r"y",
+        r"(t)",
+        r"=",
+        r"\sin",
+        r"t",
+        color=PURPLE
+    )
 
-    # x_param.move_to(cosine_eq)
-    # y_param.move_to(sine_eq)
+    x_param.move_to(cosine_eq)
+    y_param.move_to(sine_eq)
 
-    # scene.play(
-    #     TransformMatchingTex(cosine_eq, x_param),
-    #     TransformMatchingTex(sine_eq, y_param)
-    # )
+    scene.play(
+        TransformMatchingTex(cosine_eq, x_param),
+        TransformMatchingTex(sine_eq, y_param)
+    )
 
 
 class CircleDemo(Scene):

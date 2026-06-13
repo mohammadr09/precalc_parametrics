@@ -10,8 +10,5 @@ test-run:
 run:
 	manim -pqh src/main.py Main
 
-FILE ?= hook_two
-SCENE ?= HookSceneTwo
-
-scene:
-	manim -pqh src/scene/$(FILE).py $(SCENE)
+scene $1 $2:
+	manim -pqh src/scene/$1.py $2
