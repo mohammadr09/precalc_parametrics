@@ -14,11 +14,13 @@ def circle_demo_display(scene):
     scene.play(Write(circle_eq))
     scene.play(Create(circle))
 
+    scene.wait(1.3)
+    scene.play(Indicate(circle_eq[0], color=RED))
+
     scene.wait(0.5)
     scene.play(Indicate(circle_eq[2], color=YELLOW))
 
-    scene.wait(0.5)
-    scene.play(Indicate(circle_eq[0], color=RED))
+    scene.wait(3)
 
     circle_parametrics_x = MathTex(r"x(t) = ...").shift(UP)
     circle_parametrics_y = MathTex(r"y(t) = ...").next_to(circle_parametrics_x, DOWN, buff=0.5)
@@ -28,7 +30,7 @@ def circle_demo_display(scene):
     scene.play(ReplacementTransform(circle_eq, circle_parametrics))
     scene.play(Write(domain))
 
-    scene.wait(1.3)
+    scene.wait(3)
 
     scene.play(FadeOut(circle_parametrics), FadeOut(domain))
 
@@ -66,8 +68,8 @@ def circle_demo_display(scene):
     vertical_line = Line(radius_line_endpoint, vertical_target, color=YELLOW)
     horizontal_line = Line(center, vertical_target, color=RED)
 
-    x = MathTex(r"x", color=RED).next_to(horizontal_line, DOWN).scale(0.65)
-    y = MathTex(r"y", color=YELLOW).next_to(vertical_line, RIGHT).scale(0.65)
+    x = MathTex(r"x", color=RED).next_to(horizontal_line, DOWN * 0.889).scale(0.65)
+    y = MathTex(r"y", color=YELLOW).next_to(vertical_line, RIGHT * 0.75).scale(0.65)
 
     scene.play(Create(vertical_line), Create(horizontal_line), Write(x), Write(y))
 
@@ -80,8 +82,7 @@ def circle_demo_display(scene):
     sine = MathTex(r"y", r"= \sin\theta", color=YELLOW).next_to(cosine, RIGHT, buff=0.5)
 
     scene.play(Write(cosine), Write(sine))
-
-    """PERHAPS SHOW THE POINT ON THE CIRCLE GOING AROUND ..."""
+    scene.wait(2.5)
 
     x_func = MathTex(r"x(\theta)", r"= \cos\theta", color=RED)
     y_func = MathTex(r"y(\theta)", r"= \sin\theta", color=YELLOW)
@@ -164,9 +165,31 @@ def circle_demo_display(scene):
     horizontal_line.clear_updaters()
     radius_line.clear_updaters()
 
-    """
-        PLAN:
-            bring forth the coords of the circle to the center of the screen
-            then, instead of theta, define the angle as t
-            define the domain
-    """
+    scene.play(
+        circle_coords.animate.move_to(ORIGIN + (RIGHT * 2)).scale(2.0)
+    )
+
+    scene.wait(2.4)
+
+    x_parametric = MathTex(r"x(t)", r"= \cos t")
+    x_parametric[0].set_color(RED)
+    y_parametric = MathTex(r"y(t)", r"= \sin t")
+    y_parametric[0].set_color(YELLOW)
+    x_parametric.move_to(x_func)
+    y_parametric.move_to(y_func)
+
+    parametric_t = MathTex("(", r"x(t)", ", ", r"y(t)", ")").scale(1.2).move_to(circle_coords)
+    parametric_t[1].set_color(RED)
+    parametric_t[3].set_color(YELLOW)
+
+    scene.play(
+        ReplacementTransform(circle_coords, parametric_t),
+        ReplacementTransform(x_func, x_parametric),
+        ReplacementTransform(y_func, y_parametric)
+    )
+    scene.wait(0.5)
+
+    domain_t = MathTex(r"t \in [0, 2\pi]").next_to(parametric_t, DOWN, buff=0.5)
+    
+    scene.play(Write(domain_t))
+    scene.wait(2)
