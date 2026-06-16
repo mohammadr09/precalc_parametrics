@@ -11,4 +11,4 @@ run:
 	manim -pqh src/main.py Main
 
 scene $1 $2:
-	manim -pqh src/scene/$1.py $2
+	manim -pqh src/scene/parametric_scenes.py ParametricScene

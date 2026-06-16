@@ -1,7 +1,7 @@
 from manim import * # type: ignore
 
 from scene.hook import hook_scene_display
-from scene.circle_demo import circle_demo_display
+from scene.parametric_scenes import circle_demo_display
 
 class Main(Scene):
     def construct(self):
